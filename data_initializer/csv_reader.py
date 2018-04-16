@@ -1,4 +1,5 @@
 import csv
+import os
 
 
 class CSVReader(object):
@@ -7,12 +8,18 @@ class CSVReader(object):
 	Main class to read CSV file
 	"""
 	def __init__(self, filename):
+		"""
+		Initialized csv reader class
+		:param filename: file path including file name
+		"""
 		if not isinstance(filename, basestring):
 			raise ValueError("Invalid file name")
+		if not os.path.isfile(filename):
+			raise ValueError("Provide file is not valid file path")
 		self.filename = filename
 		self.csv_data = []
 
-	def _read_csv(self):
+	def read_csv(self):
 		"""
 		Read csv file
 		:return: list of data read from csv
@@ -26,3 +33,5 @@ class CSVReader(object):
 		except IOError as e:
 			print e
 			raise e
+		finally:
+			csv_fp.close() if csv_fp is not None else None
